@@ -1,0 +1,125 @@
+{
+    "null-data": {
+        "object": "",
+        "init-value1": "form1.text1=\"\"",
+        "init-value2": "body"
+    },
+    "functions": {
+        "init": "",
+        "test": "alert(1);"
+    },
+    "layouts": [
+        {
+            "id": "panel1",
+            "component-type": "panel",
+            "position": "central",
+            "attributes": {
+                "说明": "attributes，这玩意可能看怎么实现方便，适当的改成数组形式，另外需要看是否需要基于type删除attributes，不过也要基于bean考虑也可能不删=。=，直接罗列属性，下同",
+                "type": "1",
+                "collapse": true,
+                "css": "这玩意可以为空，另外没确定collapse这个属性值是否是Boolean型，可能是String"
+            },
+            "layouts": [
+                {
+                    "id": "form1",
+                    "component-type": "form",
+                    "position": "central",
+                    "attributes": {
+                        "type": "1",
+                        "collapse": true,
+                        "css": "",
+                        "functions": {
+                            "说明": "functions，这玩意可能看怎么实现方便，适当的改成数组形式",
+                            "methods": {
+                                "validate": "",
+                                "validateField": ""
+                            },
+                            "events": {}
+                        }
+                    },
+                    "form-item": [
+                        {
+                            "item": {
+                                "id": "form1.text1",
+                                "type": "text",
+                                "value": "object.text",
+                                "attributes": {
+                                    "type": "1",
+                                    "collapse": true,
+                                    "css": "",
+                                    "functions": {
+                                        "说明": "functions，这玩意可能看怎么实现方便，适当的改成数组形式",
+                                        "methods": {},
+                                        "events": {
+                                            "change": "test"
+                                        }
+                                    }
+                                }
+                            },
+                            "attributes": {
+                                "label": "输入框",
+                                "rules": [],
+                                "error": "错误了"
+                            }
+                        },
+                        {}
+                    ]
+                },
+                {
+                    "id": "table1",
+                    "component-type": "table",
+                    "position": "central",
+                    "attributes": {
+                        "type": "1",
+                        "collapse": true,
+                        "css": "",
+                        "functions": {
+                            "说明": "functions，这玩意可能看怎么实现方便，适当的改成数组形式",
+                            "methods": {
+                                "validate": "",
+                                "validateField": ""
+                            },
+                            "events": {}
+                        }
+                    },
+                    "form-item": [
+                        {
+                            "item": {
+                                "id": "form1.text1",
+                                "type": "text",
+                                "value": "object.text",
+                                "attributes": {
+                                    "type": "1",
+                                    "collapse": true,
+                                    "css": "",
+                                    "functions": {
+                                        "说明": "functions，这玩意可能看怎么实现方便，适当的改成数组形式",
+                                        "methods": {},
+                                        "events": {
+                                            "change": "test"
+                                        }
+                                    }
+                                }
+                            },
+                            "attributes": {
+                                "label": "输入框",
+                                "rules": [],
+                                "error": "错误了"
+                            }
+                        },
+                        {}
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "panel2",
+            "component-type": "panel",
+            "position": "west",
+            "attributes": {
+                "type": "3",
+                "collapse": true
+            }
+        }
+    ]
+}

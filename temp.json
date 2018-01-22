@@ -1,0 +1,20 @@
+{
+    "component-type": "button",
+    "parent-id": "",
+    "id": "",
+    "document-id": "",
+    "auth-id": "",
+    "order": 0,
+    "bind": "",
+    "element-code": "",
+    "css": [
+        "..."
+    ],
+    "...": "...",
+    "methods": {
+        "...": "..."
+    },
+    "events": {
+        "...": "..."
+    }
+}
