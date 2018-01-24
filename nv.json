@@ -1,0 +1,37 @@
+{
+  "id":1000,
+  "ndCode":"6",
+  "ndName":"Dictonary",
+  "ndType":"0006",
+  "parentId":"0",
+  "fvs":{
+    "dictCode":"1000",
+    "dictName":"测试Dict"
+  },
+  "childrens":{
+    "DictionaryValue":[
+      {
+        "id": 1001,
+        "ndCode": "7",
+        "ndName": "DictonaryValue",
+        "ndType": "0007",
+        "parentId": "0",
+        "fvs": {
+          "valueCode": "1",
+          "valueName": "测试1"
+        }
+      },
+      {
+        "id": 1002,
+        "ndCode": "7",
+        "ndName": "DictonaryValue",
+        "ndType": "0007",
+        "parentId": "0",
+        "fvs": {
+          "valueCode": "2",
+          "valueName": "测试2"
+        }
+      }
+    ]
+  }
+}
