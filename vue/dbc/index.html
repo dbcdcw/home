@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8"> </head>
+
+<body>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <div id="nd101">
+    <el-form id="nd101-form">
+      <el-row>
+        <el-col :span=8>
+          <el-form-item label="编码" id="nd101-form-item1">
+            <el-input v-model="dataSource.obj.fvs.code" id="nd101-form-item1-text1"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span=8>
+          <el-form-item label="名称" id="nd101-form-item2">
+            <el-input v-model="dataSource.obj.fvs.name" id="nd101-form-item2-text1"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span=8>
+          <el-form-item label="绑定元素" id="nd101-form-item3">
+            <el-input v-model="dataSource.obj.fvs.ndCode" id="nd101-form-item3-text1"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span=8>
+          <el-form-item id="nd101-form-item4">
+            <el-button id="nd101-form-item4-button">保存</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+  </div>
+  <div id="vue-script">
+    <script> var nd101 = new Vue({ el: "#nd101", data: { dataSource: { ndCode: "101", obj: { fvs: {} }, url: {} } }, methods: {}, mounted: function () { this.$nextTick(function () { }) } });</script> </div>
+</body>
+
+</html>

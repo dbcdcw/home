@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+  <div id="app">
+    {{url.asdf}}! {{url.hhh}}! {{url.wqer}}
+    <el-input v-model="url.hhh"></el-input>
+    <el-button @click="haha">按钮</el-button>
+    <el-button @click="hahaa">按钮</el-button>
+    <el-dialog :visible.sync="visible" title="Hello world">
+      <p>欢迎使用 Element</p>
+    </el-dialog>
+  </div>
+</body>
+<!-- 先引入 Vue -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      visible: false,
+      url: []
+    },
+    methods: {
+      hahaa: function () {
+        // vm.$set(this.data.aaa, "aaa", "asdf");
+        vm.$set(vm.$data.url, "aaa", { asf: "asdf" })
+      },
+      haha: function () {
+        var urlTemp = location.search; //获取url中"?"符后的字串   
+        if (urlTemp.indexOf("?") != -1) {
+
+          var str = urlTemp.substr(1);
+          strs = str.split("&");
+          for (var i = 0; i < strs.length; i++) {
+            var tempParam = strs[i].split("=");
+            vm.$set(vm.$data.url, tempParam[0], tempParam[1]);
+          }
+        }
+        alert(vm.$data.url);
+      }
+    }
+  })
+</script>
+
+</html>
