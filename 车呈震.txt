@@ -1,0 +1,11 @@
+1、pagination，同级table
+2、upload，form/button
+3、number基本信息
+4、percentage基本信息
+5、数据源转换json
+6、通用方法，function绑定不同的控件
+7、String转json
+8、动态双向绑定、同一个页面会写值
+9、Tree
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+1、菜单应用场景？页面配置

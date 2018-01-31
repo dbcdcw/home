@@ -10,7 +10,7 @@
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <div id="nd101">
-    <el-form id="nd101-form">
+    <el-form id="nd101-form" :model="dataSource.obj">
       <el-row>
         <el-col :span=8>
           <el-form-item label="编码" id="nd101-form-item1">
@@ -29,14 +29,61 @@
         </el-col>
         <el-col :span=8>
           <el-form-item id="nd101-form-item4">
-            <el-button id="nd101-form-item4-button">保存</el-button>
+            <el-button id="nd101-form-item4-button" @click="init">保存</el-button>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
   </div>
   <div id="vue-script">
-    <script> var nd101 = new Vue({ el: "#nd101", data: { dataSource: { ndCode: "101", obj: { fvs: {} }, url: {} } }, methods: {}, mounted: function () { this.$nextTick(function () { }) } });</script> </div>
+    <script> var nd101 = new Vue({
+        el: "#nd101",
+        data: {
+          dataSource: {
+            ndCode: "101",
+            obj: {},
+            url: {}
+          }
+        },
+        methods: {
+          init: function () {
+            var urlTemp = location.search;
+            if (urlTemp.indexOf("?") != -1) {
+              var str = urlTemp.substr(1);
+              strs = str.split("&");
+              for (var i = 0; i < strs.length; i++) {
+                var tempParam = strs[i].split("=");
+                nd101.$set(nd101.dataSource.url, tempParam[0], tempParam[1]);
+              }
+            }
+            var idTemp = 0;
+            if (nd101.dataSource.url.id != undefined && nd101.dataSource.url.id != null) {
+              idTemp = nd101.dataSource.url.id;
+            }
+            alert(idTemp)
+            axios.get("http://localhost:18120/base/nv/getNv/" + this.dataSource.ndCode + "/" + idTemp)
+              .then(function (response) {
+                if (response.data.success) {
+                  nd101.$set(nd101.dataSource, "obj", response.data.data);
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) {
+                alert(error);
+              });
+          }
+        },
+        mounted: function () {
+          this.$nextTick(function () {
+            this.init();
+            console.log(nd101.dataSource);
+            // nd101.$set(this.dataSource, "obj", { fvs: {} });
+            // nd101.$set(this.dataSource.obj, "fvs", {});
+            // nd101.$set(this.dataSource.obj.fvs, "code", "aaa");
+          })
+        }
+      });</script> </div>
 </body>
 
 </html>
