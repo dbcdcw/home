@@ -10,26 +10,26 @@
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <div id="nd101">
-    <el-form id="nd101-form" :model="dataSource.obj">
+    <el-form id="nd101-form">
       <el-row>
         <el-col :span=8>
           <el-form-item label="编码" id="nd101-form-item1">
-            <el-input v-model="dataSource.obj.fvs.code" id="nd101-form-item1-text1"></el-input>
+            <el-input v-model="ds.obj.fields.code" id="nd101-form-item1-text1"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span=8>
           <el-form-item label="名称" id="nd101-form-item2">
-            <el-input v-model="dataSource.obj.fvs.name" id="nd101-form-item2-text1"></el-input>
+            <el-input v-model="ds.obj.fields.name" id="nd101-form-item2-text1"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span=8>
           <el-form-item label="绑定元素" id="nd101-form-item3">
-            <el-input v-model="dataSource.obj.fvs.ndCode" id="nd101-form-item3-text1"></el-input>
+            <el-input v-model="ds.obj.fields.ndCode" id="nd101-form-item3-text1"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span=8>
           <el-form-item id="nd101-form-item4">
-            <el-button id="nd101-form-item4-button" @click="init">保存</el-button>
+            <el-button id="nd101-form-item4-button" @click="test(ds.obj)">保存</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -37,34 +37,32 @@
   </div>
   <div id="vue-script">
     <script> var nd101 = new Vue({
-        el: "#nd101",
-        data: {
-          dataSource: {
+        el: "#nd101", data: {
+          ds: {
             ndCode: "101",
-            obj: {},
-            url: {}
+            url: {
+            }
           }
         },
         methods: {
-          init: function () {
+          initBusinessData: function (name) {
             var urlTemp = location.search;
             if (urlTemp.indexOf("?") != -1) {
               var str = urlTemp.substr(1);
               strs = str.split("&");
               for (var i = 0; i < strs.length; i++) {
                 var tempParam = strs[i].split("=");
-                nd101.$set(nd101.dataSource.url, tempParam[0], tempParam[1]);
+                nd101.$set(nd101.ds.url, tempParam[0], tempParam[1]);
               }
             }
             var idTemp = 0;
-            if (nd101.dataSource.url.id != undefined && nd101.dataSource.url.id != null) {
-              idTemp = nd101.dataSource.url.id;
+            if (nd101.ds.url.id != undefined && nd101.ds.url.id != null) {
+              idTemp = nd101.ds.url.id;
             }
-            alert(idTemp)
-            axios.get("http://localhost:18120/base/nv/getNv/" + this.dataSource.ndCode + "/" + idTemp)
+            axios.get("http://localhost:18120/base/nv/getNv/" + this.ds.ndCode + "/" + idTemp)
               .then(function (response) {
                 if (response.data.success) {
-                  nd101.$set(nd101.dataSource, "obj", response.data.data);
+                  nd101.$set(nd101.ds, name, response.data.data);
                 } else {
                   alert(response.data.message);
                 }
@@ -72,16 +70,16 @@
               .catch(function (error) {
                 alert(error);
               });
+          },
+          test: function (body) {
+            alert(body);
           }
-        },
-        mounted: function () {
-          this.$nextTick(function () {
-            this.init();
-            console.log(nd101.dataSource);
-            // nd101.$set(this.dataSource, "obj", { fvs: {} });
-            // nd101.$set(this.dataSource.obj, "fvs", {});
-            // nd101.$set(this.dataSource.obj.fvs, "code", "aaa");
-          })
+        }, mounted: function () {
+          this.$nextTick(
+            function () {
+              this.initBusinessData("obj");
+              this.initBusinessData("Test");
+            })
         }
       });</script> </div>
 </body>
