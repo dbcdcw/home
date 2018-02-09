@@ -9,7 +9,7 @@
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <div id="nd101">
+  <div id="nd101" ref="nd101div">
     <el-form id="nd101-form" ref="nd101-form">
       <el-row>
         <el-col :span=8>
@@ -29,12 +29,19 @@
         </el-col>
         <el-col :span=8>
           <el-form-item id="nd101-form-item4" ref="nd101-form-item4">
-            <el-button id="nd101-form-item4-button" ref="nd101-form-item4-button" @click="normalSave('nd101-form-item4-button')" binddata="this.ds.obj"
-              bindndcode="101" callbackparent="nd101.ds" callbackname="obj" url=http://localhost:18120/base/nv/saveNv/ parentid="value=0">保存</el-button>
+            <el-button id="nd101-form-item4-button" ref="nd101-form-item4-button" @click="normalSave('nd101-form-item4-button')" binddata="nd101.ds.obj"
+              bindndcode="101" callbackparent="nd101.ds" callbackname="obj" url=http://localhost:18120/layout/layout/saveNv/
+              parentid="value=0">保存</el-button>
+          </el-form-item>
+        </el-col>
+        <el-col :span=8>
+          <el-form-item id="nd101-form-item4" ref="nd101-form-item4">
+            <el-button id="nd101-form-item4-button" ref="nd101-form-item4-button" @click="haha($event)">haha</el-button>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
+    <div ref="testdiv">asdfasfd</div>
   </div>
   <div id="vue-script">
     <script> var nd101 = new Vue({
@@ -44,6 +51,13 @@
           }
         },
         methods: {
+          haha: function (ev) {
+            var tempdiv = nd101.$refs["testdiv"];
+            var nd101div = nd101.$refs["nd101div"];
+            alert(nd101div.offsetHeight);
+            tempdiv.style.marginTop = ev.pageY-nd101div.offsetHeight + "px";
+            tempdiv.style.marginLeft = ev.pageX + 20 + "px";
+          },
           initBusinessData: function (name) {
             var urlTemp = location.search; if (urlTemp.indexOf("?") != -1) {
               var str = urlTemp.substr(1);
@@ -56,7 +70,7 @@
             var idTemp = 0;
             if (nd101.ds.url.id != undefined && nd101.ds.url.id != null) {
               idTemp = nd101.ds.url.id;
-            } axios.get("http://localhost:18120/base/nv/getNv/" + this.ds.ndCode + "/" + idTemp)
+            } axios.get("http://localhost:18120/layout/layout/getNv/" + nd101.ds.ndCode + "/" + idTemp)
               .then(function (response) {
                 if (response.data.success) {
                   nd101.$set(nd101.ds, name, response.data.data);
@@ -91,8 +105,8 @@
         },
         mounted: function () {
           this.$nextTick(function () {
-            this.initBusinessData("obj");
-            this.initBusinessData("Test");
+            nd101.initBusinessData("obj");
+            nd101.initBusinessData("Test");
           })
         }
       });</script> </div>
