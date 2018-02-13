@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8"> </head>
+
+<body>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <div id="nd101" ref="nd101div">
+    <el-tree :data="dataTree" show-checkbox node-key="layoutTreeId" :props="{children: 'layoutTreeChildren',label: 'layoutTreeName'}" @node-click="handleNodeClick" ref="tree"></el-tree>
+  </div>
+  <div id="vue-script">
+    <script> var nd101 = new Vue({
+        el: "#nd101", data: {
+          dataTree: [
+    {
+      "layoutTreeName": "布局baseLayout布局",
+      "layoutTreeId": "958552230615580672",
+      "creator": "system",
+      "code": "101",
+      "lInitFunctionList": null,
+      "modifier": null,
+      "updateTime": null,
+      "ndType": "0101",
+      "parentId": "0",
+      "ndCode": "101",
+      "createTime": "2018-01-31 12:07:15",
+      "lFunctionList": "normalSave",
+      "name": "baseLayout布局",
+      "ndName": "Layout",
+      "id": "958552230615580672",
+      "layoutNdCode": "101",
+      "layoutTreeChildren": [
+        {
+          "layoutTreeName": "初始化数据源",
+          "layoutTreeId": "101",
+          "ndCode": "126",
+          "tiggerName": "Test",
+          "functionName": "initBusinessData",
+          "functionParam": "\"Test\"",
+          "ndName": "LInitDataSourse",
+          "id": "101",
+          "expandInfo": null,
+          "ndType": "0105",
+          "parentId": "958552230615580672"
+        },
+        {
+          "layoutTreeName": "容器form",
+          "layoutTreeId": "958552230716243968",
+          "endLine": "false",
+          "componentType": "105",
+          "creator": "system",
+          "lAccordion": "false",
+          "lDataSourse": null,
+          "docId": "form",
+          "modifier": null,
+          "displayOrder": "10",
+          "updateTime": null,
+          "positionInParent": null,
+          "formItemSize": "0",
+          "lTableColumnType": null,
+          "label": null,
+          "ndType": "0104",
+          "parentId": "958552230615580672",
+          "lTitle": null,
+          "cssNames": null,
+          "ndCode": "104",
+          "createTime": "2018-01-31 12:07:15",
+          "layoutType": null,
+          "ndName": "LContainer",
+          "id": "958552230716243968",
+          "layoutTreeChildren": [
+            {
+              "layoutTreeName": "容器item1",
+              "layoutTreeId": "958552230879821824",
+              "endLine": "false",
+              "componentType": "106",
+              "creator": "system",
+              "lAccordion": "false",
+              "lDataSourse": null,
+              "docId": "item1",
+              "modifier": null,
+              "displayOrder": "10",
+              "updateTime": null,
+              "positionInParent": null,
+              "formItemSize": "8",
+              "lTableColumnType": null,
+              "label": "编码",
+              "ndType": "0104",
+              "parentId": "958552230716243968",
+              "lTitle": null,
+              "cssNames": null,
+              "ndCode": "104",
+              "createTime": "2018-01-31 12:07:15",
+              "layoutType": null,
+              "ndName": "LContainer",
+              "id": "958552230879821824",
+              "layoutTreeChildren": [
+                {
+                  "layoutTreeName": "文本框text1",
+                  "layoutTreeId": "958552230997262336",
+                  "componentType": "202",
+                  "creator": "system",
+                  "docId": "text1",
+                  "modifier": null,
+                  "displayOrder": "10",
+                  "updateTime": null,
+                  "ndType": "0104",
+                  "parentId": "958552230879821824",
+                  "cssNames": null,
+                  "ndCode": "108",
+                  "createTime": "2018-01-31 12:07:15",
+                  "ndName": "LcText",
+                  "id": "958552230997262336",
+                  "bindData": "ds.obj.fields.code",
+                  "layoutTreeChildren": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "layoutTreeName": "容器item2",
+              "layoutTreeId": "958552231093731328",
+              "endLine": "false",
+              "componentType": "106",
+              "creator": "system",
+              "lAccordion": "false",
+              "lDataSourse": null,
+              "docId": "item2",
+              "modifier": null,
+              "displayOrder": "10",
+              "updateTime": null,
+              "positionInParent": null,
+              "formItemSize": "8",
+              "lTableColumnType": null,
+              "label": "名称",
+              "ndType": "0104",
+              "parentId": "958552230716243968",
+              "lTitle": null,
+              "cssNames": null,
+              "ndCode": "104",
+              "createTime": "2018-01-31 12:07:15",
+              "layoutType": null,
+              "ndName": "LContainer",
+              "id": "958552231093731328",
+              "layoutTreeChildren": [
+                {
+                  "layoutTreeName": "文本框text1",
+                  "layoutTreeId": "958552231186006016",
+                  "componentType": "202",
+                  "creator": "system",
+                  "docId": "text1",
+                  "modifier": null,
+                  "displayOrder": "10",
+                  "updateTime": null,
+                  "ndType": "0104",
+                  "parentId": "958552231093731328",
+                  "cssNames": null,
+                  "ndCode": "108",
+                  "createTime": "2018-01-31 12:07:15",
+                  "ndName": "LcText",
+                  "id": "958552231186006016",
+                  "bindData": "ds.obj.fields.name",
+                  "layoutTreeChildren": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "layoutTreeName": "容器item3",
+              "layoutTreeId": "958552231223754752",
+              "endLine": "false",
+              "componentType": "106",
+              "creator": "system",
+              "lAccordion": "false",
+              "lDataSourse": null,
+              "docId": "item3",
+              "modifier": null,
+              "displayOrder": "10",
+              "updateTime": null,
+              "positionInParent": null,
+              "formItemSize": "8",
+              "lTableColumnType": null,
+              "label": "绑定元素",
+              "ndType": "0104",
+              "parentId": "958552230716243968",
+              "lTitle": null,
+              "cssNames": null,
+              "ndCode": "104",
+              "createTime": "2018-01-31 12:07:15",
+              "layoutType": null,
+              "ndName": "LContainer",
+              "id": "958552231223754752",
+              "layoutTreeChildren": [
+                {
+                  "layoutTreeName": "文本框text1",
+                  "layoutTreeId": "958552231307640832",
+                  "componentType": "202",
+                  "creator": "system",
+                  "docId": "text1",
+                  "modifier": null,
+                  "displayOrder": "10",
+                  "updateTime": null,
+                  "ndType": "0104",
+                  "parentId": "958552231223754752",
+                  "cssNames": null,
+                  "ndCode": "108",
+                  "createTime": "2018-01-31 12:07:15",
+                  "ndName": "LcText",
+                  "id": "958552231307640832",
+                  "bindData": "ds.obj.fields.layoutNdCode",
+                  "layoutTreeChildren": [
+                    
+                  ]
+                }
+              ]
+            },
+            {
+              "layoutTreeName": "容器item4",
+              "layoutTreeId": "958552231349583872",
+              "endLine": "false",
+              "componentType": "106",
+              "creator": "system",
+              "lAccordion": "false",
+              "lDataSourse": null,
+              "docId": "item4",
+              "modifier": null,
+              "displayOrder": "10",
+              "updateTime": null,
+              "positionInParent": null,
+              "formItemSize": "8",
+              "lTableColumnType": null,
+              "label": null,
+              "ndType": "0104",
+              "parentId": "958552230716243968",
+              "lTitle": null,
+              "cssNames": null,
+              "ndCode": "104",
+              "createTime": "2018-01-31 12:07:15",
+              "layoutType": null,
+              "ndName": "LContainer",
+              "id": "958552231349583872",
+              "layoutTreeChildren": [
+                {
+                  "layoutTreeName": "按钮button",
+                  "layoutTreeId": "958552231425081344",
+                  "componentType": "203",
+                  "creator": "system",
+                  "commitParentId": "value=0",
+                  "docId": "button",
+                  "modifier": null,
+                  "displayOrder": "10",
+                  "updateTime": null,
+                  "callbackParent": null,
+                  "callbackName": null,
+                  "ndType": "0104",
+                  "parentId": "958552231349583872",
+                  "cssNames": null,
+                  "authMenuButton": "0",
+                  "ndCode": "109",
+                  "createTime": "2018-01-31 12:07:15",
+                  "ndName": "LcButton",
+                  "bindNdCode": "101",
+                  "id": "958552231425081344",
+                  "lTextInLabel": "保存",
+                  "bindData": "this.ds.obj",
+                  "layoutTreeChildren": [
+                    {
+                      "layoutTreeName": "事件",
+                      "layoutTreeId": "102",
+                      "ndCode": "105",
+                      "tiggerName": "click",
+                      "functionName": "normalSave",
+                      "functionParam": "'!docId!'",
+                      "ndName": "LEvent",
+                      "id": "102",
+                      "expandInfo": null,
+                      "ndType": "0105",
+                      "parentId": "958552231425081344"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+        },
+        methods: {
+          handleNodeClick(data) {
+            console.log(data);
+            console.log(this.$refs['tree'].getCurrentKey())
+          }
+        }
+      });</script> </div>
+</body>
+
+</html>
