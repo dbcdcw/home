@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8"> </head>
+
+<body>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <div id="nd104">
+    <el-form id="nd104-form" ref="nd104-form">
+      <el-row>
+        <el-col :span=8>
+          <el-form-item label="页面元素ID" id="nd104-form-item1" ref="nd104-form-item1">
+            <el-input v-model="ds.obj.fields.docId" id="nd104-form-item1-text1" ref="nd104-form-item1-text1"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span=8>
+          <el-form-item label="样式" id="nd104-form-item2" ref="nd104-form-item2">
+            <el-input v-model="ds.obj.fields.cssNames" id="nd104-form-item2-text1" ref="nd104-form-item2-text1"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span=8>
+          <el-form-item label="顺序" id="nd104-form-item3" ref="nd104-form-item3">
+            <el-input v-model="ds.obj.fields.displayOrder" id="nd104-form-item3-text1" ref="nd104-form-item3-text1"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span=8>
+          <el-form-item label="引用容器" :id="'nd104-form-item6'" :ref="'nd104-form-item6'">
+            <el-input v-model="ds.obj.fields.refComponent" :id="'nd104-form-item6-text'" :ref="'nd104-form-item6-text'" modelstring="ds.obj.fields.refComponent"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span=8>
+          <el-form-item label="引用自定义参数" :id="'nd104-form-item7'" :ref="'nd104-form-item7'">
+            <el-input v-model="ds.obj.fields.refParameter" :id="'nd104-form-item7-text'" :ref="'nd104-form-item7-text'" modelstring="ds.obj.fields.refParameter"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span=8>
+          <el-form-item id="nd104-form-item4" ref="nd104-form-item4">
+            <el-button id="nd104-form-item4-button" ref="nd104-form-item4-button" @click="saveForLayoutComponent('nd104-form-item4-button')"
+              binddata="ds.obj" bindndcode="104" callbackobj="ds.obj" url="http://10.88.1.11:18120/layout/layout/saveComponentNv/"
+              parentid="data=url.layoutId">保存</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+
+  </div>
+  <div id="vue-script">
+    <script> var vm = new Vue({
+        el: "#nd104", data: {
+          ndCode: "104",
+          ds: {
+
+          },
+          url: {}
+        },
+        methods: {
+          setValue(obj, value) {
+            var int = obj.lastIndexOf(".");
+            var path = obj.substring(0, int);
+            var name = obj.substring(int + 1);
+            vm.$set(eval("vm." + path), name, value);
+          },
+          initUrl() {
+            var urlTemp = location.search;
+            if (urlTemp.indexOf("?") != -1) {
+              var str = urlTemp.substr(1);
+              strs = str.split("&");
+              for (var i = 0; i < strs.length; i++) {
+                var tempParam = strs[i].split("=");
+                vm.$set(vm.url, tempParam[0], tempParam[1]);
+              }
+            }
+          },
+          initBusinessDataForLayout(name) {
+            var idTemp = 0;
+            if (vm.url.id != undefined && vm.url.id != null) {
+              idTemp = vm.url.id;
+            }
+            axios.get("http://10.88.1.11:18120/layout/layout/getLayoutNv/" + vm.ndCode + "/" + idTemp + "/" + vm.url.componentType)
+              .then(function (response) {
+                if (response.data.success) {
+                  vm.$set(vm.ds, name, response.data.data);
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) {
+                alert(error);
+              });
+          },
+          saveForLayoutComponent(refName) {
+            var tempButton = vm.$refs[refName];
+            var tempParentId = 0;
+            var tempSplitParentId = tempButton.$attrs["parentid"].split("=");
+            if (tempSplitParentId[0] == "value") {
+              tempParentId = tempSplitParentId[1];
+            } else if (tempSplitParentId[0] == "data") {
+              tempParentId = eval("vm." + tempSplitParentId[1]);
+            } else {
+              alert("页面配置有误，请联系系统管理员");
+              return;
+            }
+            axios.post(tempButton.$attrs["url"] + tempButton.$attrs["bindndcode"] + "/" + tempParentId + "/" + vm.url.layoutId, eval("vm." + tempButton.$attrs["binddata"]))
+              .then(function (response) {
+                if (response.data.success) {
+                  vm.setValue(tempButton.$attrs["callbackobj"], response.data.data);
+                  var parentVm = window.parent.vm;
+                  parentVm.initBusinessData("obj");
+                  parentVm.initLayoutTreeData("layoutTreeData");
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) {
+                alert(error);
+              });
+          }
+        },
+        mounted: function () {
+          this.$nextTick(function () {
+            this.initUrl();
+            this.initBusinessDataForLayout("obj");
+          })
+        }
+      });</script> </div>
+</body>
+
+</html>

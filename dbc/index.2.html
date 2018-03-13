@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8"> </head>
+
+<body>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <div id="nd101" ref="nd101">
+    <div></div>
+  </div>
+  <div id="vue-script">
+    <script> var vm = new Vue({
+        el: "#nd101", data: {
+          value: "",
+          ds: {
+            ndCode: "101", url: {}, a: ""
+          }
+        },
+        methods: {
+          addTree() {
+            vm.$refs["dialog"].visible = true;
+          },
+          initDictValuesNormal(dictCode, name) {
+            axios.get("http://localhost:18120/base/dict/j/vals/" + dictCode)
+              .then(function (response) {
+                if (response.data.success) {
+                  vm.$set(vm.ds, name, response.data.data);
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) { alert(error); });
+          },
+          handleNodeClick(data, node) {
+            var rootNode = node;
+            while (!(rootNode.parent.data instanceof Array)) {
+              rootNode = rootNode.parent;
+            }
+            vm.$refs["iframe"].src = "./layout/nd" + data.ndCode + ".html?id=" + data.id + "&layoutId=" + rootNode.data.id;
+          },
+          initLayoutTreeData(name) {
+            var idTemp = 0;
+            if (vm.ds.url.id != undefined && vm.ds.url.id != null) {
+              idTemp = vm.ds.url.id;
+            }
+            axios.get("http://localhost:18120/layout/layout/nv2Json/" + idTemp + "/true")
+              .then(function (response) {
+                if (response.data.success) {
+                  vm.$set(vm.ds, name, response.data.data);
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) { alert(error); });
+          },
+          initUrl() {
+            var urlTemp = location.search;
+            if (urlTemp.indexOf("?") != -1) {
+              var str = urlTemp.substr(1);
+              strs = str.split("&");
+              for (var i = 0; i < strs.length; i++) {
+                var tempParam = strs[i].split("=");
+                vm.$set(vm.ds.url, tempParam[0], tempParam[1]);
+              }
+            }
+          },
+          initBusinessData(name) {
+            var idTemp = 0;
+            if (vm.ds.url.id != undefined && vm.ds.url.id != null) {
+              idTemp = vm.ds.url.id;
+            } axios.get("http://localhost:18120/layout/layout/getNv/" + vm.ds.ndCode + "/" + idTemp)
+              .then(function (response) {
+                if (response.data.success) {
+                  vm.$set(vm.ds, name, response.data.data);
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) { alert(error); });
+          }
+        },
+        mounted() {
+          this.$nextTick(function () {
+            vm.initUrl();
+            vm.initBusinessData("obj");
+            vm.initLayoutTreeData("layoutTreeData");
+            vm.initDictValuesNormal("102", "componentType");
+          })
+        }
+      });</script> </div>
+</body>
+
+</html>

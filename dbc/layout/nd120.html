@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8"> </head>
+
+<body>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <div id="nd120">
+        <el-form :id="'nd120-form'" :ref="'nd120-form'">
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd120-form-item1'" :ref="'nd120-form-item1'" label="页面元素ID">
+                        <el-input :id="'nd120-form-item1-docId'" :ref="'nd120-form-item1-docId'" v-model="ds.obj.fields.docId" modelstring="ds.obj.fields.docId"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd120-form-item3'" :ref="'nd120-form-item3'" label="样式">
+                        <el-input :id="'nd120-form-item3-cssNames'" :ref="'nd120-form-item3-cssNames'" v-model="ds.obj.fields.cssNames" modelstring="ds.obj.fields.cssNames"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd120-form-item5'" :ref="'nd120-form-item5'" label="顺序">
+                        <el-input :id="'nd120-form-item5-displayOrder'" :ref="'nd120-form-item5-displayOrder'" v-model="ds.obj.fields.displayOrder"
+                            modelstring="ds.obj.fields.displayOrder"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd120-form-item4'" :ref="'nd120-form-item4'" label="数据源">
+                        <el-input :id="'nd120-form-item4-lDataSourse'" :ref="'nd120-form-item4-lDataSourse'" v-model="ds.obj.fields.lDataSourse"
+                            modelstring="ds.obj.fields.lDataSourse"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd120-form-item2'" :ref="'nd120-form-item2'" label="绑定">
+                        <el-input :id="'nd120-form-item2-bindData'" :ref="'nd120-form-item2-bindData'" v-model="ds.obj.fields.bindData" modelstring="ds.obj.fields.bindData"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd120-form-item6'" :ref="'nd120-form-item6'">
+                        <el-button :id="'nd120-form-item6-layout-save'" :ref="'nd120-form-item6-layout-save'" @click="normalSave('nd120-form-item6-layout-save')"
+                            binddata="this.ds.obj" bindndcode="120" callbackobj="this.ds.obj" url="http://10.88.1.11:18120/layout/layout/saveNv/"
+                            parentid="value=0">保存</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd120-form-item7'" :ref="'nd120-form-item7'" label="引用容器">
+                        <el-input :id="'nd120-form-item7-refComponent'" :ref="'nd120-form-item7-refComponent'" v-model="ds.obj.fields.refComponent"
+                            modelstring="ds.obj.fields.refComponent"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd120-form-item8'" :ref="'nd120-form-item8'" label="引用自定义参数">
+                        <el-input :id="'nd120-form-item8-refParameter'" :ref="'nd120-form-item8-refParameter'" v-model="ds.obj.fields.refParameter"
+                            modelstring="ds.obj.fields.refParameter"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+    </div>
+    <div id="vue-script">
+        <script> var vm = new Vue({ el: "#nd120", data: { vmName: "vm", ndCode: "120", url: {}, ds: {}, userDefine: {} }, methods: { setValue(obj, value) { var int = obj.lastIndexOf("."); var path = obj.substring(0, int); var name = obj.substring(int + 1); vm.$set(eval("vm." + path), name, value); }, initUrl() { var urlTemp = location.search; if (urlTemp.indexOf("?") != -1) { var str = urlTemp.substr(1); strs = str.split("&"); for (var i = 0; i < strs.length; i++) { var tempParam = strs[i].split("="); vm.$set(vm.url, tempParam[0], tempParam[1]); } } }, initBusinessData(name) { var idTemp = 0; if (vm.url.id != undefined && vm.url.id != null) { idTemp = vm.url.id; } axios.get("http://10.88.1.11:18120/layout/layout/getNv/" + vm.ndCode + "/" + idTemp).then(function (response) { if (response.data.success) { vm.$set(vm.ds, name, response.data.data); } else { alert(response.data.message); } }).catch(function (error) { alert(error); }); } }, mounted: function () { this.$nextTick(function () { this.initUrl(); this.initBusinessData("obj"); }) } });</script> </div>
+</body>
+
+</html>

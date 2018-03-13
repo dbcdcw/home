@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8"> </head>
+
+<body>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <div id="nd15">
+        <el-dialog :id="'nd15-dialog'" :ref="'nd15-dialog'" title="asdf"></el-dialog>
+        <el-form :id="'nd15-form'" :ref="'nd15-form'">
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd15-form-item1'" :ref="'nd15-form-item1'" label="用户名">
+                        <el-button :id="'nd15-form-item1-button'" :ref="'nd15-form-item1-button'" @click="Test" binddata="ds.obj"
+                            bindndcode="15" callbackobj="ds.test1.fields.creator" url="http://localhost:18120/layout/layout/saveNv/"
+                            parentid="value=0">保存</el-button>
+                        <el-input :id="'nd15-form-item1-text1'" :ref="'nd15-form-item1-text1'" v-model="ds.obj.fields.userName"
+                            modelstring="ds.obj.fields.userName"></el-input>
+                        <el-transfer :id="'nd15-form-item1-transfer'" :ref="'nd15-form-item1-transfer'" @change="Test"
+                            v-model="ds.obj.childrens.SysUserRoleRel.SysUserRoleRel" modelstring="ds.obj.childrens.SysUserRoleRel.SysUserRoleRel"
+                            :data="ds.sysRole.fields" datastring="ds.sysRole.fields"></el-transfer>
+                        <el-tree :id="'nd15-form-item1-tree'" :ref="'nd15-form-item1-tree'" :data="ds.sysRole"
+                            datastring="ds.sysRole"></el-tree>
+                        <el-table :id="'nd15-form-item1-table'" :ref="'nd15-form-item1-table'" :data="ds.obj.childrens.SysUserRoleRel"
+                            datastring="ds.obj.childrens.SysUserRoleRel">
+                            <el-table-column :id="'nd15-form-item1-table-column1'" :ref="'nd15-form-item1-table-column1'" label="选择">
+                                <template slot-scope="asdf">
+                                    <el-input :id="'nd15-form-item1-table-column1-text'-asdf.$index" :ref="'nd15-form-item1-table-column1-text'-asdf.$index"
+                                        v-model="asdf.row.fields.creator" modelstring="asdf.row.fields.creator"></el-input>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <el-container :id="'nd15-panel2'" :ref="'nd15-panel2'">
+            <el-aside>
+                <el-collapse :id="'nd15-panel2-collapse'" :ref="'nd15-panel2-collapse'" :accordion=true>
+                    <el-collapse-item :id="'nd15-panel2-collapse-item1'" :ref="'nd15-panel2-collapse-item1'" name="1" title="asdf">
+                        <el-input :id="'nd15-panel2-collapse-item1-area'" :ref="'nd15-panel2-collapse-item1-area'" v-model="ds.obj.fields.creator"
+                            modelstring="ds.obj.fields.creator" type="textarea"></el-input>
+                    </el-collapse-item>
+                </el-collapse>
+            </el-aside>
+            <el-select :id="'nd15-panel2-select'" :ref="'nd15-panel2-select'" v-model="ds.obj.fields.creator" modelstring="ds.obj.fields.creator">
+                <el-option v-for="item in ds.sysRole" :key="item.fields.creator" :label="item.fields.roleNote" :value="item.fields.roleName"></el-option>
+            </el-select>
+        </el-container>
+        <div :id="'nd15-panel1'" :ref="'nd15-panel1'"></div>
+    </div>
+    <div id="vue-script">
+        <script> var vm = new Vue({ el: "#nd15", data: { ndCode: "15", url: {}, ds: {}, userDefine: {} }, methods: { setValue(obj, value) { var int = obj.lastIndexOf("."); var path = obj.substring(0, int); var name = obj.substring(int + 1); vm.$set(eval("vm." + path), name, value); }, Test() { alert("hahaha"); }, initUrl() { var urlTemp = location.search; if (urlTemp.indexOf("?") != -1) { var str = urlTemp.substr(1); strs = str.split("&"); for (var i = 0; i < strs.length; i++) { var tempParam = strs[i].split("="); vm.$set(vm.url, tempParam[0], tempParam[1]); } } }, initBusinessData(name) { var idTemp = 0; if (vm.url.id != undefined && vm.url.id != null) { idTemp = vm.url.id; } axios.get("http://localhost:18120/layout/layout/getNv/" + vm.ndCode + "/" + idTemp).then(function (response) { if (response.data.success) { vm.$set(vm.ds, name, response.data.data); } else { alert(response.data.message); } }).catch(function (error) { alert(error); }); } }, mounted: function () { this.$nextTick(function () { this.initUrl(); this.initBusinessData("obj"); this.initBusinessData('sysRole'); }) } });</script> </div>
+</body>
+
+</html>

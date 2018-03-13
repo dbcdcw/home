@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8"> </head>
+
+<body>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <div id="nd109">
+        <el-form :id="'nd109-form'" :ref="'nd109-form'">
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item1'" :ref="'nd109-form-item1'" label="页面元素ID">
+                        <el-input :id="'nd109-form-item1-docId'" :ref="'nd109-form-item1-docId'" v-model="ds.obj.fields.docId"
+                            modelstring="ds.obj.fields.docId"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item3'" :ref="'nd109-form-item3'" label="样式">
+                        <el-input :id="'nd109-form-item3-cssNames'" :ref="'nd109-form-item3-cssNames'" v-model="ds.obj.fields.cssNames"
+                            modelstring="ds.obj.fields.cssNames"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item7'" :ref="'nd109-form-item7'" label="顺序">
+                        <el-input :id="'nd109-form-item7-displayOrder'" :ref="'nd109-form-item7-displayOrder'" v-model="ds.obj.fields.displayOrder"
+                            modelstring="ds.obj.fields.displayOrder"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item2'" :ref="'nd109-form-item2'" label="按钮名">
+                        <el-input :id="'nd109-form-item2-lTextInLabel'" :ref="'nd109-form-item2-lTextInLabel'" v-model="ds.obj.fields.lTextInLabel"
+                            modelstring="ds.obj.fields.lTextInLabel"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item4'" :ref="'nd109-form-item4'" label="权限">
+                        <el-select :id="'nd109-form-item4-authMenuButton'" :ref="'nd109-form-item4-authMenuButton'" v-model="ds.obj.fields.authMenuButton"
+                            modelstring="ds.obj.fields.authMenuButton">
+                            <el-option v-for="item in null" :key="item.key" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item5'" :ref="'nd109-form-item5'" label="绑定数据">
+                        <el-input :id="'nd109-form-item5-text'" :ref="'nd109-form-item5-text'" v-model="ds.obj.fields.bindData" modelstring="ds.obj.fields.bindData"></el-input>
+                        <el-button :id="'nd109-form-item5-button'" :ref="'nd109-form-item5-button'" @click="queryBindName('nd109-form-item5-button','nd109-dsDialog')"
+                            refcomponent="nd109-form-item5-text" refparameter="userDefine.bindComponent">搜索</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item6'" :ref="'nd109-form-item6'" label="绑定定义编码">
+                        <el-input :id="'nd109-form-item6-bindNdCode'" :ref="'nd109-form-item6-bindNdCode'" v-model="ds.obj.fields.bindNdCode"
+                            modelstring="ds.obj.fields.bindNdCode"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item11'" :ref="'nd109-form-item11'" label="回调目标">
+                        <el-input :id="'nd109-form-item11-text'" :ref="'nd109-form-item11-text'" v-model="ds.obj.fields.callbackObj" modelstring="ds.obj.fields.callbackObj"></el-input>
+                        <el-button :id="'nd109-form-item11-button'" :ref="'nd109-form-item11-button'" @click="queryBindName('nd109-form-item11-button','nd109-dsDialog')"
+                            refcomponent="nd109-form-item11-text" refparameter="userDefine.bindComponent">搜索</el-button>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item12'" :ref="'nd109-form-item12'" label="提交父ID">
+                        <el-input :id="'nd109-form-item12-text'" :ref="'nd109-form-item12-text'" v-model="ds.obj.fields.commitParentId" modelstring="ds.obj.fields.commitParentId"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item9'" :ref="'nd109-form-item9'" label="引用容器">
+                        <el-input :id="'nd109-form-item9-refComponent'" :ref="'nd109-form-item9-refComponent'" v-model="ds.obj.fields.refComponent"
+                            modelstring="ds.obj.fields.refComponent"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item10'" :ref="'nd109-form-item10'" label="引用自定义参数">
+                        <el-input :id="'nd109-form-item10-refParameter'" :ref="'nd109-form-item10-refParameter'" v-model="ds.obj.fields.refParameter"
+                            modelstring="ds.obj.fields.refParameter"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd109-form-item8'" :ref="'nd109-form-item8'">
+                        <el-button :id="'nd109-form-item8-layout-save'" :ref="'nd109-form-item8-layout-save'" @click="saveForLayoutComponent('nd109-form-item8-layout-save')"
+                            binddata="ds.obj" bindndcode="109" callbackobj="ds.obj" url="http://10.88.1.11:18120/layout/layout/saveComponentNv/"
+                            parentid="data=url.parentId">保存</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <div :id="'nd109-event'" :ref="'nd109-event'">
+            <el-button @click="newEvent('nd109-eventDialog')" :id="'nd109-event-add'" :ref="'nd109-event-add'">添加</el-button>
+            <el-table :data="ds.obj.childrens.LEvent">
+                <el-table-column label="触发名" :ref="'nd109-event-table-column1'">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.fields.tiggerName" :id="'nd109-event-table-column1-text'+scope.$index" :ref="'nd109-event-table-column1-text'+scope.$index"></el-input>
+                        <el-input v-model="scope.row.fields.tiggerName" :id="'nd109-event-table-column1-text'+scope.$index" :ref="'nd109-event-table-column1-text'+scope.$index"></el-input>
+                        <el-input v-model="scope.row.fields.tiggerName" :id="'nd109-event-table-column1-text'+scope.$index" :ref="'nd109-event-table-column1-text'+scope.$index"></el-input>
+                        <el-input v-model="scope.row.fields.tiggerName" :id="'nd109-event-table-column1-text'+scope.$index" :ref="'nd109-event-table-column1-text'+scope.$index"></el-input>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="方法名" :id="'nd109-event-table-column2'" :ref="'nd109-event-table-column2'">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.fields.functionName" :id="'nd109-event-table-column2-text'+scope.$index" :ref="'nd109-event-table-column2-text'+scope.$index"></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column label="参数" :id="'nd109-event-table-column3'" :ref="'nd109-event-table-column3'">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.fields.functionParam" :id="'nd109-event-table-column3-text'+scope.$index" :ref="'nd109-event-table-column3-text'+scope.$index"></el-input>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
+        <el-dialog :id="'nd109-dsDialog'" :ref="'nd109-dsDialog'" @close="closeDialog('nd109-dsDialog')">
+            <el-form :id="'nd109-dsDialog-form'" :ref="'nd109-dsDialog-form'">
+                <el-row>
+                    <el-col>
+                        <el-form-item :id="'nd109-dsDialog-form-item1'" :ref="'nd109-dsDialog-form-item1'">
+                            <el-button :id="'nd109-dsDialog-form-item1-button'" :ref="'nd109-dsDialog-form-item1-button'" @click="newDs('nd109-newDsDialog','126','newDs')">新建</el-button>
+                        </el-form-item>
+                    </el-col>
+                    <el-col>
+                        <el-form-item :id="'nd109-dsDialog-form-item2'" :ref="'nd109-dsDialog-form-item2'">
+                            <el-tree :ref="'nd109-dsDialog-form-item2-tree'" :id="'nd109-dsDialog-form-item2-tree'" :data="ds.layoutTreeData" node-key="layoutTreeId"
+                                refparameter="userDefine.bindComponent" :props="{children: 'layoutTreeChildren',label: 'layoutTreeName'}"
+                                @node-click="handleNodeClick" @dblclick.native="treeDoubleClickForDs('nd109-dsDialog-form-item2-tree','nd109-dsDialog')"></el-tree>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </el-dialog>
+        <el-dialog :ref="'nd109-newDsDialog'" :id="'nd109-newDsDialog'" @close="closeDialog('nd109-newDsDialog')">
+            <el-form :id="'nd109-newDsDialog-form'" :ref="'nd109-newDsDialog-form'">
+                <el-row>
+                    <el-col>
+                        <el-form-item label="名称" :id="'nd109-newDsDialog-form-item1'" :ref="'nd109-newDsDialog-form-item1'">
+                            <el-input v-model="ds.newDs.fields.tiggerName" :id="'nd109-newDsDialog-form-item1-text'" :ref="'nd109-newDsDialog-form-item1-text'"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col>
+                        <el-form-item label="方法名" :id="'nd109-newDsDialog-form-item2'" :ref="'nd109-newDsDialog-form-item2'">
+                            <el-input v-model="ds.newDs.fields.functionName" :id="'nd109-newDsDialog-form-item2-text'" :ref="'nd109-newDsDialog-form-item2-text'"
+                                modelstring="ds.newDs.fields.functionName"></el-input>
+                            <el-button :id="'nd109-newDsDialog-form-item2-button'" :ref="'nd109-newDsDialog-form-item2-button'" refcomponent="nd109-newDsDialog-form-item2-text"
+                                refparameter="userDefine.bindFunction" @click="queryFunctionName('nd109-newDsDialog-form-item2-button','nd109-functionDialog')">查找</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col>
+                        <el-form-item label="参数" :id="'nd109-newDsDialog-form-item3'" :ref="'nd109-newDsDialog-form-item3'">
+                            <el-input v-model="ds.newDs.fields.functionParam" :id="'nd109-newDsDialog-form-item3-text'" :ref="'nd109-newDsDialog-form-item3-text'"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col>
+                        <el-form-item label="绑定ND" :id="'nd109-newDsDialog-form-item4'" :ref="'nd109-newDsDialog-form-item4'">
+                            <el-input v-model="ds.newDs.fields.expandInfo" :id="'nd109-newDsDialog-form-item4-text'" :ref="'nd109-newDsDialog-form-item4-text'"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col>
+                        <el-form-item :id="'nd109-newDsDialog-form-item5'" :ref="'nd109-newDsDialog-form-item5'">
+                            <el-button :id="'nd109-newDsDialog-form-item5-button'" :ref="'nd109-newDsDialog-form-item5-button'" @click="saveForLayoutDs('nd109-newDsDialog-form-item5-button')"
+                                binddata="ds.newDs" bindndcode="126" callbackobj="ds.newDs" url="http://10.88.1.11:18120/layout/layout/saveTiggerFunctionNv/"
+                                parentid="data=url.layoutId">保存</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </el-dialog>
+        <el-dialog :ref="'nd109-functionDialog'" :id="'nd109-functionDialog'" @close="closeDialog('nd109-functionDialog')" refcomponent="nd109-functionDialog-collapse">
+            <el-collapse :id="'nd109-functionDialog-collapse'" :ref="'nd109-functionDialog-collapse'" accordion v-model="userDefine.activeName"
+                modelstring="userDefine.activeName">
+                <el-collapse-item title="查询" name="1" :id="'nd109-functionDialog-collapse-item1'" :ref="'nd109-functionDialog-collapse-item1'">
+                    <el-form :id="'nd109-functionDialog-collapse-item1-form'" :ref="'nd109-functionDialog-collapse-item1-form'">
+                        <el-row>
+                            <el-col>
+                                <el-form-item label="方法名" :id="'nd109-functionDialog-collapse-item1-form-item1'" :ref="'nd109-functionDialog-collapse-item1-form-item1'">
+                                    <el-input v-model="ds.functionSimpleSelect.fields.name" :id="'nd109-functionDialog-collapse-item1-form-item1-text'" :ref="'nd109-functionDialog-collapse-item1-form-item1-text'"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col>
+                                <el-form-item label="描述" :id="'nd109-functionDialog-collapse-item1-form-item2'" :ref="'nd109-functionDialog-collapse-item1-form-item2'">
+                                    <el-input v-model="ds.functionSimpleSelect.fields.descript" :id="'nd109-functionDialog-collapse-item1-form-item2-text'" :ref="'nd109-functionDialog-collapse-item1-form-item2-text'"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col>
+                                <el-form-item :id="'nd109-functionDialog-collapse-item1-form-item3'" :ref="'nd109-functionDialog-collapse-item1-form-item3'">
+                                    <el-button :id="'nd109-functionDialog-collapse-item1-form-item3-button'" :ref="'nd109-functionDialog-collapse-item1-form-item3-button'"
+                                        @click="queryFunctions('nd109-functionDialog-collapse-item1-form-item3-button')" binddata="ds.functionSimpleSelect"
+                                        refcomponent="nd109-functionDialog-collapse" callbackobj="ds.functions" url="http://10.88.1.11:18120/layout/layout/querySimpleSelectResult/false">查询</el-button>
+                                    <el-button :id="'nd109-functionDialog-collapse-item1-form-item3-button1'" :ref="'nd109-functionDialog-collapse-item1-form-item3-button1'"
+                                        @click="newFunctionNv('nd109-functionDialog')">新建</el-button>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </el-collapse-item>
+                <el-collapse-item title="结果" name="2" :id="'nd109-functionDialog-collapse-item2'" :ref="'nd109-functionDialog-collapse-item2'">
+                    <el-form :id="'nd109-functionDialog-collapse-item2-form'" :ref="'nd109-functionDialog-collapse-item2-form'">
+                        <el-row>
+                            <el-form-item :id="'nd109-functionDialog-collapse-item2-form-item1'" :ref="'nd109-functionDialog-collapse-item2-form-item1'">
+                                <el-button :id="'nd109-functionDialog-collapse-item2-form-item1-button'" :ref="'nd109-functionDialog-collapse-item2-form-item1-button'"
+                                    @click="newFunctionNv('nd109-functionDialog')">新建</el-button>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item :id="'nd109-functionDialog-collapse-item2-form-item2'" :ref="'nd109-functionDialog-collapse-item2-form-item2'">
+                                <el-table @row-dblclick="functionNvDetail" :data="ds.functions" :id="'nd109-functionDialog-collapse-item2-form-item2-table'"
+                                    :ref="'nd109-functionDialog-collapse-item2-form-item2-table'" highlight-current-row>
+                                    <el-table-column label="编码" :id="'nd109-functionDialog-collapse-item2-form-item2-table-column1'" :ref="'nd109-functionDialog-collapse-item2-form-item2-table-column1'">
+                                        <template slot-scope="scope">
+                                            <el-input v-model="scope.row.fields.name" :id="'nd109-functionDialog-collapse-item2-form-item2-table-column1-text'+scope.$index"
+                                                :ref="'nd109-functionDialog-collapse-item2-form-item2-table-column1-text'+scope.$index"></el-input>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column label="描述" :id="'nd109-functionDialog-collapse-item2-form-item2-table-column2'" :ref="'nd109-functionDialog-collapse-item2-form-item2-table-column2'">
+                                        <template slot-scope="scope">
+                                            <el-input v-model="scope.row.fields.descript" :id="'nd109-functionDialog-collapse-item2-form-item2-table-column2-text'+scope.$index"
+                                                :ref="'nd109-functionDialog-collapse-item2-form-item2-table-column2-text'+scope.$index"></el-input>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </el-form-item>
+                        </el-row>
+                    </el-form>
+                </el-collapse-item>
+                <el-collapse-item title="详情" name="3" :id="'nd109-functionDialog-collapse-item3'" :ref="'nd109-functionDialog-collapse-item3'">
+                    <el-form :id="'nd109-functionDialog-collapse-item3-form'" :ref="'nd109-functionDialog-collapse-item3-form'">
+                        <el-row>
+                            <el-form-item label="名称" :id="'nd109-functionDialog-collapse-item3-form-item1'" :ref="'nd109-functionDialog-collapse-item3-form-item1'">
+                                <el-input v-model="ds.function.fields.name" :id="'nd109-functionDialog-collapse-item3-form-item1-text'" :ref="'nd109-functionDialog-collapse-item3-form-item1-text'"></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="描述" :id="'nd109-functionDialog-collapse-item3-form-item2'" :ref="'nd109-functionDialog-collapse-item3-form-item2'">
+                                <el-input v-model="ds.function.fields.descript" :id="'nd109-functionDialog-collapse-item3-form-item2-text'" :ref="'nd109-functionDialog-collapse-item3-form-item2-text'"></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="参数" :id="'nd109-functionDialog-collapse-item3-form-item3'" :ref="'nd109-functionDialog-collapse-item3-form-item3'">
+                                <el-input v-model="ds.function.fields.functionParam" :id="'nd109-functionDialog-collapse-item3-form-item3-text'" :ref="'nd109-functionDialog-collapse-item3-form-item3-text'"></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="方法体" :id="'nd109-functionDialog-collapse-item3-form-item4'" :ref="'nd109-functionDialog-collapse-item3-form-item4'">
+                                <el-input type="textarea" v-model="ds.function.fields.functionBody" :id="'nd109-functionDialog-collapse-item3-form-item4-text'"
+                                    :ref="'nd109-functionDialog-collapse-item3-form-item4-text'"></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item :id="'nd109-functionDialog-collapse-item3-form-item5'" :ref="'nd109-functionDialog-collapse-item3-form-item5'">
+                                <el-button :id="'nd109-functionDialog-collapse-item3-form-item5-button'" :ref="'nd109-functionDialog-collapse-item3-form-item5-button'"
+                                    @click="saveForFunction('nd109-functionDialog-collapse-item3-form-item5-button')" binddata="ds.function"
+                                    bindndcode="103" callbackobj="ds.function" url="http://10.88.1.11:18120/layout/layout/saveNv/"
+                                    parentid="value=0">保存并选中</el-button>
+                            </el-form-item>
+                        </el-row>
+                    </el-form>
+                </el-collapse-item>
+            </el-collapse>
+        </el-dialog>
+        <el-dialog :ref="'nd109-eventDialog'" :id="'nd109-eventDialog'" @close="closeDialog('nd109-eventDialog')">
+            <el-form :id="'nd109-eventDialog-form'" :ref="'nd109-eventDialog-form'">
+                <el-row>
+                    <el-col>
+                        <el-form-item label="触发名" :id="'nd109-eventDialog-form-item1'" :ref="'nd109-eventDialog-form-item1'">
+                            <el-input v-model="ds.newEvent.fields.tiggerName" :id="'nd109-eventDialog-form-item1-text'" :ref="'nd109-eventDialog-form-item1-text'"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col>
+                        <el-form-item label="方法名" :id="'nd109-eventDialog-form-item2'" :ref="'nd109-eventDialog-form-item2'">
+                            <el-input v-model="ds.newEvent.fields.functionName" :id="'nd109-eventDialog-form-item2-text'" :ref="'nd109-eventDialog-form-item2-text'"
+                                modelstring="ds.newEvent.fields.functionName"></el-input>
+                            <el-button :id="'nd109-eventDialog-form-item2-button'" :ref="'nd109-eventDialog-form-item2-button'" refcomponent="nd109-eventDialog-form-item2-text"
+                                refparameter="userDefine.bindFunction" @click="queryFunctionName('nd109-eventDialog-form-item2-button','nd109-functionDialog')">查找</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col>
+                        <el-form-item label="参数" :id="'nd109-eventDialog-form-item3'" :ref="'nd109-eventDialog-form-item3'">
+                            <el-input v-model="ds.newEvent.fields.functionParam" :id="'nd109-eventDialog-form-item3-text'" :ref="'nd109-eventDialog-form-item3-text'"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col>
+                        <el-form-item :id="'nd109-eventDialog-form-item4'" :ref="'nd109-eventDialog-form-item4'">
+                            <el-button :id="'nd109-eventDialog-form-item4-button'" :ref="'nd109-eventDialog-form-item4-button'" @click="saveForEvent('nd109-eventDialog-form-item4-button')"
+                                binddata="ds.newEvent" bindndcode="105" callbackobj="ds.newEvent" url="http://10.88.1.11:18120/layout/layout/saveTiggerFunctionNv/"
+                                parentid="data=ds.obj.fields.id">保存</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </el-dialog>
+    </div>
+    <div id="vue-script">
+        <script> var vm = new Vue({
+                el: "#nd109", data: {
+                    ndCode: "109",
+                    url: {},
+                    ds: {},
+                    userDefine: {
+                        activeName: "",
+                        bindComponent: "",
+                        bindFunction: ""
+                    }
+                },
+                methods: {
+                    setValue(obj, value) {
+                        var int = obj.lastIndexOf(".");
+                        var path = obj.substring(0, int);
+                        var name = obj.substring(int + 1);
+                        vm.$set(eval("vm." + path), name, value);
+                    },
+                    initUrl() {
+                        var urlTemp = location.search;
+                        if (urlTemp.indexOf("?") != -1) {
+                            var str = urlTemp.substr(1);
+                            strs = str.split("&");
+                            for (var i = 0; i < strs.length; i++) {
+                                var tempParam = strs[i].split("=");
+                                vm.$set(vm.url, tempParam[0], tempParam[1]);
+                            }
+                        }
+                    },
+                    initBusinessDataForLayout(name) {
+                        var idTemp = 0;
+                        if (vm.url.id != undefined && vm.url.id != null) {
+                            idTemp = vm.url.id;
+                        }
+                        axios.get("http://10.88.1.11:18120/layout/layout/getLayoutNv/" + vm.ndCode + "/" + idTemp + "/" + vm.url.componentType)
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.$set(vm.ds, name, response.data.data);
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    },
+                    saveForLayoutComponent(refName) {
+                        var tempButton = vm.$refs[refName];
+                        var tempParentId = 0;
+                        var tempSplitParentId = tempButton.$attrs["parentid"].split("=");
+                        if (tempSplitParentId[0] == "value") {
+                            tempParentId = tempSplitParentId[1];
+                        } else if (tempSplitParentId[0] == "data") {
+                            tempParentId = eval("vm." + tempSplitParentId[1]);
+                        } else {
+                            alert("页面配置有误，请联系系统管理员");
+                            return;
+                        }
+                        axios.post(tempButton.$attrs["url"] + tempButton.$attrs["bindndcode"] + "/" + tempParentId + "/" + vm.url.layoutId, eval("vm." + tempButton.$attrs["binddata"]))
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.setValue(tempButton.$attrs["callbackobj"], response.data.data);
+                                    var parentVm = window.parent.vm;
+                                    parentVm.initBusinessData("obj");
+                                    parentVm.initLayoutTreeData("layoutTreeData");
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    },
+                    saveForFunction(refName) {
+                        var tempButton = vm.$refs[refName];
+                        var tempParentId = 0;
+                        var tempSplitParentId = tempButton.$attrs["parentid"].split("=");
+                        if (tempSplitParentId[0] == "value") {
+                            tempParentId = tempSplitParentId[1];
+                        } else if (tempSplitParentId[0] == "data") {
+                            tempParentId = eval("vm." + tempSplitParentId[1]);
+                        } else {
+                            alert("页面配置有误，请联系系统管理员");
+                            return;
+                        }
+                        axios.post(tempButton.$attrs["url"] + tempButton.$attrs["bindndcode"] + "/" + tempParentId, eval("vm." + tempButton.$attrs["binddata"]))
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.setValue(tempButton.$attrs["callbackobj"], response.data.data);
+                                    vm.setValue(eval("vm." + "userDefine.bindFunction"), response.data.data.fields.name);
+                                    vm.closeDialog("nd109-functionDialog");
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    },
+                    saveForEvent(refName) {
+                        var tempButton = vm.$refs[refName];
+                        var tempParentId = 0;
+                        var tempSplitParentId = tempButton.$attrs["parentid"].split("=");
+                        if (tempSplitParentId[0] == "value") {
+                            tempParentId = tempSplitParentId[1];
+                        } else if (tempSplitParentId[0] == "data") {
+                            tempParentId = eval("vm." + tempSplitParentId[1]);
+                        } else {
+                            alert("页面配置有误，请联系系统管理员");
+                            return;
+                        }
+                        if (tempParentId == 0) {
+                            alert("请先保存容器");
+                            return;
+                        }
+                        axios.post(tempButton.$attrs["url"] + tempButton.$attrs["bindndcode"] + "/" + tempParentId + "/" + vm.url.layoutId, eval("vm." + tempButton.$attrs["binddata"]))
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.setValue(tempButton.$attrs["callbackobj"], response.data.data);
+                                    vm.initBusinessDataForLayout("obj");
+                                    vm.closeDialog("nd109-eventDialog");
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    },
+                    saveForLayoutDs(refName) {
+                        var tempButton = vm.$refs[refName];
+                        var tempParentId = 0;
+                        var tempSplitParentId = tempButton.$attrs["parentid"].split("=");
+                        if (tempSplitParentId[0] == "value") {
+                            tempParentId = tempSplitParentId[1];
+                        } else if (tempSplitParentId[0] == "data") {
+                            tempParentId = eval("vm." + tempSplitParentId[1]);
+                        } else {
+                            alert("页面配置有误，请联系系统管理员");
+                            return;
+                        }
+                        axios.post(tempButton.$attrs["url"] + tempButton.$attrs["bindndcode"] + "/" + tempParentId + "/" + vm.url.layoutId, eval("vm." + tempButton.$attrs["binddata"]))
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.setValue(tempButton.$attrs["callbackobj"], response.data.data);
+                                    vm.initDSTree();
+                                    vm.closeDialog("nd109-newDsDialog");
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    },
+                    initSimpleSelect(ndCode, name) {
+                        axios.get("http://10.88.1.11:18120/layout/layout/initSimpleSelect/" + ndCode)
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.$set(vm.ds, name, response.data.data);
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    },
+                    initNullDs(name) {
+                        vm.$set(vm.ds, name, []);
+                    },
+                    queryFunctions(refName) {
+                        var tempButton = vm.$refs[refName];
+                        axios.post(tempButton.$attrs["url"], eval("vm." + tempButton.$attrs["binddata"]))
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.setValue(tempButton.$attrs["callbackobj"], response.data.data);
+                                    vm.setValue(vm.$refs[tempButton.$attrs["refcomponent"]].$attrs["modelstring"], "2");
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    },
+                    initDSTree() {
+                        axios.get("http://10.88.1.11:18120/layout/layout/initLayoutDS/" + vm.url.layoutId)
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.$set(vm.ds, "layoutTreeData", response.data.data);
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) { alert(error); });
+                    },
+                    newNv(code, name) {
+                        axios.get("http://10.88.1.11:18120/layout/layout/getNv/" + code + "/" + 0)
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.$set(vm.ds, name, response.data.data);
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    },
+                    getNv(code, id, name) {
+                        axios.get("http://10.88.1.11:18120/layout/layout/getNv/" + code + "/" + id)
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.$set(vm.ds, name, response.data.data);
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    },
+                    handleNodeClick() {
+                        console.log("123");
+                    },
+                    newFunctionNv(dialogName) {
+                        vm.getNv("103", 0, "function");
+                        vm.setValue(vm.$refs[vm.$refs[dialogName].$attrs["refcomponent"]].$attrs["modelstring"], "3");
+                    },
+                    functionNvDetail(row) {
+                        vm.getNv("103", row.fields.id, "function");
+                        vm.setValue(vm.$refs[vm.$refs["nd109-functionDialog"].$attrs["refcomponent"]].$attrs["modelstring"], "3");
+                    },
+                    newDs(dName, code, name) {
+                        vm.openDialog(dName);
+                        vm.newNv(code, name);
+                    },
+                    closeDialog(dialogName) {
+                        vm.$refs[dialogName].visible = false;
+                    },
+                    openDialog(dialogName) {
+                        vm.$refs[dialogName].visible = true;
+                    }, newEvent(dialogName) {
+                        vm.newNv("105", "newEvent");
+                        vm.openDialog(dialogName);
+                    },
+                    queryBindName(refName, dialogName) {
+                        var refTemp = vm.$refs[refName];
+                        var refComponentName = refTemp.$attrs["refcomponent"];
+                        var refComponent = vm.$refs[refComponentName];
+                        vm.setValue(refTemp.$attrs["refparameter"], refComponent.$attrs["modelstring"]);
+                        vm.openDialog(dialogName);
+                    },
+                    queryFunctionName(refName, dialogName) {
+                        var refTemp = vm.$refs[refName];
+                        var refComponentName = refTemp.$attrs["refcomponent"];
+                        var refComponent = vm.$refs[refComponentName];
+                        vm.initSimpleSelect("103", "functionSimpleSelect");
+                        vm.openDialog(dialogName);
+                        vm.setValue(refTemp.$attrs["refparameter"], refComponent.$attrs["modelstring"]);
+                        setTimeout(function () { vm.setValue(vm.$refs[vm.$refs[dialogName].$attrs["refcomponent"]].$attrs["modelstring"], "1"); }, 1);
+                    },
+                    treeDoubleClickForDs(treeName, dialogName) {
+                        var tree = vm.$refs[treeName];
+                        var tempNode = tree.getCurrentNode();
+                        var callbackString = tree.$attrs["refparameter"];
+                        vm.setValue(eval("vm." + callbackString), tempNode.layoutTreeId);
+                        vm.closeDialog(dialogName);
+                    }
+                },
+                mounted: function () {
+                    this.$nextTick(function () {
+                        this.initUrl();
+                        this.initBusinessDataForLayout("obj");
+                        this.initDSTree();
+                        this.newNv("126", "newDs");
+                        this.initSimpleSelect("103", "functionSimpleSelect");
+                        this.initNullDs("functions");
+                        this.newNv("103", "function");
+                        this.newNv("105", "newEvent");
+                    })
+                }
+            });</script> </div>
+</body>
+
+</html>

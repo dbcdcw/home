@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8"> </head>
+
+<body>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <div id="nd101" ref="nd101">
+    <el-container>
+      <el-aside>
+        <el-button @click="openDialog('dialog')">添加</el-button>
+        <el-tree ref="tree" :data="ds.layoutTreeData" node-key="layoutTreeId" :props="{children: 'layoutTreeChildren',label: 'layoutTreeName'}"
+          @node-click="handleNodeClick"></el-tree>
+        <el-dialog ref="dialog" @close="closeDialog('dialog')">
+          <el-select ref="select" v-model="value" placeholder="请选择">
+            <el-option v-for="item in ds.componentType" :key="item.fields.valueCode" :label="item.fields.descript" :value="item.fields.valueCode">
+            </el-option>
+          </el-select>
+          <el-form>
+            <el-item>
+              <el-button @click="confirmAdd">确定</el-button>
+            </el-item>
+            <el-item>
+              <el-button @click="cancelAdd">取消</el-button>
+            </el-item>
+          </el-form>
+        </el-dialog>
+      </el-aside>
+      <el-main>
+        <iframe ref="iframe" src="" frameborder=0 width="100%" height="100%"></iframe>
+      </el-main>
+    </el-container>
+  </div>
+  <div id="vue-script">
+    <script> var vm = new Vue({
+        el: "#nd101", data: {
+          value: "",
+          ndCode: "101",
+          ds: {
+            url: {}, a: false
+          }
+        },
+        methods: {
+          closeDialog(name) {
+            vm.$refs[name].visible = false;
+          },
+          openDialog(name) {
+            vm.$refs[name].visible = true;
+          },
+          setNormal(parent, name, value) {
+            vm.$set(eval(parent), name, value);
+          },
+          cancelAdd() {
+            vm.$refs["dialog"].visible = false;
+            vm.$refs["select"].value = "";
+          },
+          confirmAdd() {
+            var treeCurrentNode = vm.$refs["tree"].getCurrentNode();
+            if (treeCurrentNode == null) {
+              alert("请选择节点");
+              return;
+            }
+            var componentType = vm.$refs["select"].value;
+            if (componentType == undefined || componentType == "") {
+              alert("请选择组件类型");
+              return;
+            }
+            axios.get("http://localhost:18120/layout/layout/newLayoutNv2TreeJson/" + componentType)
+              .then(function (response) {
+                if (response.data.success) {
+                  var data = response.data.data;
+                  if (!treeCurrentNode.layoutTreeChildren) {
+                    vm.$set(treeCurrentNode, "layoutTreeChildren", []);
+                  }
+                  treeCurrentNode.layoutTreeChildren.push(data);
+                  vm.$refs["tree"].setCurrentKey(data.layoutTreeId);
+                  var ndCode = data.ndCode;
+                  if (data.ndCode == "104") {
+                    ndCode = "104-" + data.componentType;
+                  }
+                  vm.$refs["iframe"].src = "./layout/nd" + ndCode + ".html?id=" + data.id + "&layoutId=" + vm.$refs["tree"].root.data[0].id + "&componentType=" + componentType + "&parentId=" + treeCurrentNode.id;
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) {
+                alert(error);
+              });
+            vm.$refs["dialog"].visible = false;
+          },
+          initDictValuesNormal(dictCode, name) {
+            axios.get("http://localhost:18120/base/dict/j/vals/" + dictCode)
+              .then(function (response) {
+                if (response.data.success) {
+                  vm.$set(vm.ds, name, response.data.data);
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) {
+                alert(error);
+              });
+          },
+          handleNodeClick(data, node) {
+            var ndCode = data.ndCode;
+            if (data.ndCode == "104") {
+              ndCode = "104-" + data.componentType;
+            }
+            vm.$refs["iframe"].src = "./layout/nd" + ndCode + ".html?id=" + data.id + "&layoutId=" + vm.$refs["tree"].root.data[0].id;
+          },
+          initLayoutTreeData(name) {
+            var idTemp = 0;
+            if (vm.ds.url.id != undefined && vm.ds.url.id != null) {
+              idTemp = vm.ds.url.id;
+            }
+            axios.get("http://localhost:18120/layout/layout/layoutNv2TreeJson/" + idTemp)
+              .then(function (response) {
+                if (response.data.success) {
+                  vm.$set(vm.ds, name, response.data.data);
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) { alert(error); });
+          },
+          initUrl() {
+            var urlTemp = location.search;
+            if (urlTemp.indexOf("?") != -1) {
+              var str = urlTemp.substr(1);
+              strs = str.split("&");
+              for (var i = 0; i < strs.length; i++) {
+                var tempParam = strs[i].split("=");
+                vm.$set(vm.ds.url, tempParam[0], tempParam[1]);
+              }
+            }
+          },
+          initBusinessData(name) {
+            var idTemp = 0;
+            if (vm.ds.url.id != undefined && vm.ds.url.id != null) {
+              idTemp = vm.ds.url.id;
+            } axios.get("http://localhost:18120/layout/layout/getNv/" + vm.ndCode + "/" + idTemp)
+              .then(function (response) {
+                if (response.data.success) {
+                  vm.$set(vm.ds, name, response.data.data);
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) { alert(error); });
+          }
+        },
+        mounted() {
+          this.$nextTick(function () {
+            vm.initUrl();
+            vm.initBusinessData("obj");
+            vm.initLayoutTreeData("layoutTreeData");
+            vm.initDictValuesNormal("102", "componentType");
+          })
+        }
+      });</script> </div>
+</body>
+
+</html>

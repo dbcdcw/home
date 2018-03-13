@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8"> </head>
+
+<body>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <div id="nd104">
+        <el-form :id="'nd104-form'" :ref="'nd104-form'">
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd104-form-item1'" :ref="'nd104-form-item1'" label="页面元素ID">
+                        <el-input :id="'nd104-form-item1-docId'" :ref="'nd104-form-item1-docId'" v-model="ds.obj.fields.docId"
+                            modelstring="ds.obj.fields.docId"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd104-form-item3'" :ref="'nd104-form-item3'" label="样式">
+                        <el-input :id="'nd104-form-item3-cssNames'" :ref="'nd104-form-item3-cssNames'" v-model="ds.obj.fields.cssNames"
+                            modelstring="ds.obj.fields.cssNames"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd104-form-item4'" :ref="'nd104-form-item4'" label="顺序">
+                        <el-input :id="'nd104-form-item4-displayOrder'" :ref="'nd104-form-item4-displayOrder'" v-model="ds.obj.fields.displayOrder"
+                            modelstring="ds.obj.fields.displayOrder"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd104-form-item2'" :ref="'nd104-form-item2'" label="类型">
+                        <el-select :id="'nd104-form-item2-lTableColumnType'" :ref="'nd104-form-item2-lTableColumnType'"
+                            v-model="ds.obj.fields.lTableColumnType" modelstring="ds.obj.fields.lTableColumnType">
+                            <el-option v-for="item in ds.columnType" :key="item.key" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd104-form-item8'" :ref="'nd104-form-item8'" label="列对象别名">
+                        <el-input :id="'nd104-form-item8-text'" :ref="'nd104-form-item8-text'" v-model="ds.obj.fields.slotScope" modelstring="ds.obj.fields.slotScope"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd104-form-item9'" :ref="'nd104-form-item9'" label="标签">
+                        <el-input :id="'nd104-form-item9-text'" :ref="'nd104-form-item9-text'" v-model="ds.obj.fields.label" modelstring="ds.obj.fields.label"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd104-form-item6'" :ref="'nd104-form-item6'" label="引用容器">
+                        <el-input :id="'nd104-form-item6-refComponent'" :ref="'nd104-form-item6-refComponent'" v-model="ds.obj.fields.refComponent"
+                            modelstring="ds.obj.fields.refComponent"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd104-form-item7'" :ref="'nd104-form-item7'" label="引用自定义参数">
+                        <el-input :id="'nd104-form-item7-refParameter'" :ref="'nd104-form-item7-refParameter'" v-model="ds.obj.fields.refParameter"
+                            modelstring="ds.obj.fields.refParameter"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd104-form-item5'" :ref="'nd104-form-item5'">
+                        <el-button :id="'nd104-form-item5-layout-save'" :ref="'nd104-form-item5-layout-save'" @click="saveForLayoutComponent('nd104-form-item5-layout-save')"
+                            binddata="ds.obj" bindndcode="104" callbackobj="ds.obj" url="http://10.88.1.11:18120/layout/layout/saveComponentNv/"
+                            parentid="data=url.parentId">保存</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+    </div>
+    <div id="vue-script">
+        <script> var vm = new Vue({
+                el: "#nd104", data: {
+                    ndCode: "104", url: {}, ds: {
+                        columnType: [
+                            { key: null, label: "空", value: null },
+                            { key: "selection", label: "多选框", value: "selection" },
+                            { key: "index", label: "索引", value: "index" },
+                            { key: "expand", label: "展开按钮", value: "expand" }]
+                    }, userDefine: {}
+                }, methods: {
+                    setValue(obj, value) {
+                        var int = obj.lastIndexOf(".");
+                        var path = obj.substring(0, int);
+                        var name = obj.substring(int + 1);
+                        vm.$set(eval("vm." + path), name, value);
+                    },
+                    initUrl() {
+                        var urlTemp = location.search; if (urlTemp.indexOf("?") != -1) { var str = urlTemp.substr(1); strs = str.split("&"); for (var i = 0; i < strs.length; i++) { var tempParam = strs[i].split("="); vm.$set(vm.url, tempParam[0], tempParam[1]); } }
+                    },
+                    initBusinessDataForLayout(name) {
+                        var idTemp = 0;
+                        if (vm.url.id != undefined && vm.url.id != null) {
+                            idTemp = vm.url.id;
+                        }
+                        axios.get("http://10.88.1.11:18120/layout/layout/getLayoutNv/" + vm.ndCode + "/" + idTemp + "/" + vm.url.componentType)
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.$set(vm.ds, name, response.data.data);
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    },
+                    saveForLayoutComponent(refName) {
+                        var tempButton = vm.$refs[refName];
+                        var tempParentId = 0;
+                        var tempSplitParentId = tempButton.$attrs["parentid"].split("=");
+                        if (tempSplitParentId[0] == "value") {
+                            tempParentId = tempSplitParentId[1];
+                        } else if (tempSplitParentId[0] == "data") {
+                            tempParentId = eval("vm." + tempSplitParentId[1]);
+                        } else {
+                            alert("页面配置有误，请联系系统管理员");
+                            return;
+                        }
+                        axios.post(tempButton.$attrs["url"] + tempButton.$attrs["bindndcode"] + "/" + tempParentId + "/" + vm.url.layoutId, eval("vm." + tempButton.$attrs["binddata"]))
+                            .then(function (response) {
+                                if (response.data.success) {
+                                    vm.setValue(tempButton.$attrs["callbackobj"], response.data.data);
+                                    var parentVm = window.parent.vm;
+                                    parentVm.initBusinessData("obj");
+                                    parentVm.initLayoutTreeData("layoutTreeData");
+                                } else {
+                                    alert(response.data.message);
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    }
+                }, mounted: function () {
+                    this.$nextTick(function () {
+                        this.initUrl();
+                        this.initBusinessDataForLayout("obj");
+                    })
+                }
+            });</script> </div>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8"> </head>
+
+<body>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <div id="nd101">
+        <el-form :id="'nd101-form'" :ref="'nd101-form'">
+            <el-row>
+                <el-col :span=8>
+                    <el-form-item :id="'nd101-form-item1'" :ref="'nd101-form-item1'" label="编码">
+                        <el-input :id="'nd101-form-item1-text1'" :ref="'nd101-form-item1-text1'" v-model="ds.obj.fields.code" modelstring="ds.obj.fields.code"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd101-form-item2'" :ref="'nd101-form-item2'" label="名称">
+                        <el-input :id="'nd101-form-item2-text1'" :ref="'nd101-form-item2-text1'" v-model="ds.obj.fields.name" modelstring="ds.obj.fields.name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd101-form-item3'" :ref="'nd101-form-item3'" label="绑定元素">
+                        <el-input :id="'nd101-form-item3-text1'" :ref="'nd101-form-item3-text1'" v-model="ds.obj.fields.layoutNdCode" modelstring="ds.obj.fields.layoutNdCode"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span=8>
+                    <el-form-item :id="'nd101-form-item4'" :ref="'nd101-form-item4'">
+                        <el-button :id="'nd101-form-item4-button'" :ref="'nd101-form-item4-button'" @click="saveForLayout('nd101-form-item4-button')"
+                            binddata="ds.obj" bindndcode="101" callbackobj="ds.obj" url="http://localhost:18120/layout/layout/saveNv/"
+                            parentid="value=0">保存</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+    </div>
+    <div id="vue-script">
+        <script> var vm = new Vue({ el: "#nd101", data: { vmName: "vm", ndCode: "101", url: {}, ds: {}, userDefine: { asdf: "", xcv: "", xc: "", vx: "", vasd: "", f: "" } }, methods: { setValue(obj, value) { var int = obj.lastIndexOf("."); var path = obj.substring(0, int); var name = obj.substring(int + 1); vm.$set(eval(vm.vmName + "." + path), name, value); }, initUrl() { var urlTemp = location.search; if (urlTemp.indexOf("?") != -1) { var str = urlTemp.substr(1); strs = str.split("&"); for (var i = 0; i < strs.length; i++) { var tempParam = strs[i].split("="); vm.$set(vm.url, tempParam[0], tempParam[1]); } } }, saveForLayout(refName) { var tempButton = vm.$refs[refName]; var tempParentId = 0; var tempSplitParentId = tempButton.$attrs["parentid"].split("="); if (tempSplitParentId[0] == "value") { tempParentId = tempSplitParentId[1]; } else if (tempSplitParentId[0] == "data") { tempParentId = eval(vm.vmName + "." + tempSplitParentId[1]); } else { alert("页面配置有误，请联系系统管理员"); return; } axios.post(tempButton.$attrs["url"] + tempButton.$attrs["bindndcode"] + "/" + tempParentId, eval(vm.vmName + "." + tempButton.$attrs["binddata"])).then(function (response) { if (response.data.success) { vm.setValue(tempButton.$attrs["callbackobj"], response.data.data); var parentVm = window.parent.vm; parentVm.$set(parentVm.url, "id", response.data.data.fields.id + ""); parentVm.initBusinessData("obj"); parentVm.initLayoutTreeData("layoutTreeData"); } else { alert(response.data.message); } }).catch(function (error) { alert(error); }); }, initBusinessData(name) { var idTemp = 0; if (vm.url.id != undefined && vm.url.id != null) { idTemp = vm.url.id; } axios.get("http://localhost:18120/layout/layout/getNv/" + vm.ndCode + "/" + idTemp).then(function (response) { if (response.data.success) { vm.$set(vm.ds, name, response.data.data); } else { alert(response.data.message); } }).catch(function (error) { alert(error); }); } }, mounted: function () { this.$nextTick(function () { this.initUrl(); this.initBusinessData("obj"); }) } });</script> </div>
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8"> </head>
+
+<body>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <div id="nd101">
+    <el-form id="nd101-form" ref="nd101-form">
+      <el-row>
+        <el-col :span=8>
+          <el-form-item id="nd101-form-item4" ref="nd101-form-item4">
+            <el-button id="nd101-form-item4-button" ref="nd101-form-item4-button" @click="saveForLayout('nd101-form-item4-button')" binddata="vm.ds.obj"
+              bindndcode="101" callbackparent="vm.ds" callbackname="obj" url="http://10.88.1.11:18120/layout/layout/saveNv/"
+              parentid="value=0">保存</el-button>
+              <div></div>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span=8>
+          <el-form-item label="编码" id="nd101-form-item1" ref="nd101-form-item1">
+            <el-input v-model="ds.obj.fields.code" id="nd101-form-item1-text1" ref="nd101-form-item1-text1"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span=8>
+          <el-form-item label="名称" id="nd101-form-item2" ref="nd101-form-item2">
+            <el-input v-model="ds.obj.fields.name" id="nd101-form-item2-text1" ref="nd101-form-item2-text1"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span=8>
+          <el-form-item label="绑定元素" id="nd101-form-item3" ref="nd101-form-item3">
+            <el-input v-model="ds.obj.fields.layoutNdCode" id="nd101-form-item3-text1" ref="nd101-form-item3-text1"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+          <el-col>
+            <el-form-item label="文件路径" id="nd101-form-item6" ref="nd101-form-item6">
+              <el-input v-model="ds.obj.fields.fileName" id="nd101-form-item6-text1" ref="nd101-form-item6-text1"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      <el-row>
+        <el-col>
+          <el-form-item label="自定义变量名" id="nd101-form-item5" ref="nd101-form-item5">
+            <el-input type="textarea" v-model="ds.obj.fields.userDefineParameter" id="nd101-form-item5-text1" ref="nd101-form-item5-text1"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+
+  </div>
+  <div id="vue-script">
+    <script> var vm = new Vue({
+        el: "#nd101", data: {
+          ndCode: "101",
+          ds: {
+            url: {}
+          }
+        },
+        methods: {
+          initUrl: function () {
+            var urlTemp = location.search;
+            if (urlTemp.indexOf("?") != -1) {
+              var str = urlTemp.substr(1); strs = str.split("&");
+              for (var i = 0; i < strs.length; i++) {
+                var tempParam = strs[i].split("=");
+                vm.$set(vm.ds.url, tempParam[0], tempParam[1]);
+              }
+            }
+          },
+          initBusinessData: function (name) {
+            var idTemp = 0;
+            if (vm.ds.url.id != undefined && vm.ds.url.id != null) {
+              idTemp = vm.ds.url.id;
+            }
+            axios.get("http://10.88.1.11:18120/layout/layout/getNv/" + vm.ndCode + "/" + idTemp)
+              .then(function (response) {
+                if (response.data.success) {
+                  vm.$set(vm.ds, name, response.data.data);
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) {
+                alert(error);
+              });
+          },
+          saveForLayout: function (refName) {
+            var tempButton = vm.$refs[refName];
+            var tempParentId = 0;
+            var tempSplitParentId = tempButton.$attrs["parentid"].split("=");
+            if (tempSplitParentId[0] == "value") {
+              tempParentId = tempSplitParentId[1];
+            } else if (tempSplitParentId[0] == "data") {
+              tempParentId = eval(tempSplitParentId[1]);
+            } else {
+              alert("页面配置有误，请联系系统管理员");
+              return;
+            }
+            axios.post(tempButton.$attrs["url"] + tempButton.$attrs["bindndcode"] + "/" + tempParentId, eval(tempButton.$attrs["binddata"]))
+              .then(function (response) {
+                if (response.data.success) {
+                  vm.$set(eval(tempButton.$attrs["callbackparent"]), tempButton.$attrs["callbackname"], response.data.data);
+                  var parentVm = window.parent.vm;
+                  parentVm.$set(parentVm.url, "id", response.data.data.fields.id + "");
+                  parentVm.initBusinessData("obj");
+                  parentVm.initLayoutTreeData("layoutTreeData");
+                } else {
+                  alert(response.data.message);
+                }
+              })
+              .catch(function (error) {
+                alert(error);
+              });
+          }
+        },
+        mounted: function () {
+          this.$nextTick(function () {
+            this.initUrl();
+            this.initBusinessData("obj");
+          })
+        }
+      });</script> </div>
+</body>
+
+</html>
